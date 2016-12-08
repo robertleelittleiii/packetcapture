@@ -1,0 +1,32 @@
+# SQLite version 3.x
+#   gem install sqlite3
+default: &default
+  adapter: sqlite3
+
+development:
+  <<: *default
+  database: db/packet_cache_development.sqllite3
+
+test:
+  <<: *default
+  database: db/packet_cache_test.sqllite3
+
+production:
+  <<: *default
+  database: db/packet_cache_production.sqllite3
+
+remote_default: &remote_default
+  adapter: mysql2
+  username: sa
+  password: 798PQt!
+  host: 50.195.116.161
+
+cloud_development:
+  <<: *remote_default
+  
+cloud_test:
+  <<: *remote_default
+
+cloud_production:
+  <<: *remote_default
+
