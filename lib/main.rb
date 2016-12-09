@@ -23,15 +23,16 @@ require 'net/ssh/gateway'
 
 require 'yaml'
 require 'packetfu'
-
-$ipcfg = PacketFu::Utils.whoami?(:iface=>$APP_CONFIG["interface"])
-$yourPIAddresquits="192.168.1.4"
-
 #set the app env to development by default.
 
 ENV["AppEnv"] = ENV["AppEnv"].blank? ? "development" : ENV["AppEnv"]
 
 $APP_CONFIG = YAML.load_file($APP_PATH + '/config/app_config.yml')[ENV["AppEnv"]]
+
+
+$ipcfg = PacketFu::Utils.whoami?(:iface=>$APP_CONFIG["interface"])
+$yourPIAddresquits="192.168.1.4"
+
 
 # load yaml database config file
 
