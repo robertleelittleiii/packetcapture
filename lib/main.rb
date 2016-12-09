@@ -24,7 +24,7 @@ require 'net/ssh/gateway'
 require 'yaml'
 require 'packetfu'
 
-$ipcfg = PacketFu::Utils.whoami?(:iface=>'en0')
+$ipcfg = PacketFu::Utils.whoami?(:iface=>$APP_CONFIG["interface"])
 $yourPIAddresquits="192.168.1.4"
 
 #set the app env to development by default.
