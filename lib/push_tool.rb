@@ -8,7 +8,7 @@ def pushDataToCloud()
       ni.packet_type = item.packet_type
       ni.captured_data = item.captured_data
       ni.raw_data = item.raw_data
-      ni.location = $APP_CONFIG["local"] || "not known: " + $ipcfg.to_s
+      ni.location = $APP_CONFIG["location"] || "not known: " + $ipcfg.to_s
       ni.processed = true
     end
     new_item.save
