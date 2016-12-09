@@ -1,0 +1,18 @@
+#  app config file will contain any variable settings.
+
+defaults: &defaults
+    system_ip: localhost
+    interface: en0
+    ip_filter: udp and port 53
+    location: mactest-1
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  
+  
