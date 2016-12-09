@@ -17,9 +17,9 @@ ActiveRecord::Schema.define(version: 20161207171240) do
     t.string   "packet_type"
     t.string   "captured_data"
     t.binary   "raw_data"
-    t.boolean  "processed"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "processed",     default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
 end

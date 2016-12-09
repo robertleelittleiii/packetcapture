@@ -17,12 +17,18 @@ production:
 
 remote_default: &remote_default
   adapter: mysql2
-  username: sa
-  password: 798PQt!
-  host: 50.195.116.161
+  database: jamnent_game_engine_production
+  username: root
+  password: vfT43I3T
+  host: 127.0.0.1
+  port: 3307
 
 cloud_development:
   <<: *remote_default
+  #username: root
+  #host: localhost
+  #password: roadster
+  #database: jamnent_game_engine_production
   
 cloud_test:
   <<: *remote_default

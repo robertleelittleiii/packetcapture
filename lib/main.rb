@@ -8,12 +8,16 @@ Bundler.require
 require 'active_record'  
 require 'sqlite3'
 
-# app load all models
- $APP_PATH = File.expand_path(File.dirname(__FILE__)).split("/")[0...-1].join("/")
+# Set app path
+$APP_PATH = File.expand_path(File.dirname(__FILE__)).split("/")[0...-1].join("/")
+ 
+# use this def for irb testing
 # $APP_PATH = File.expand_path(File.dirname(__FILE__))
+
 $LOAD_PATH << $APP_PATH << $APP_PATH + "/lib"
 
-Dir[$APP_PATH + '/models/*.rb'].each {|file| require file }
+# for ssh tunnel connections
+require 'net/ssh/gateway'
 
 # Includes for apps
 
@@ -27,21 +31,40 @@ $yourPIAddresquits="192.168.1.4"
 
 ENV["AppEnv"] = ENV["AppEnv"].blank? ? "development" : ENV["AppEnv"]
 
-require "capture_tool"
-
 $APP_CONFIG = YAML.load_file($APP_PATH + '/config/app_config.yml')[ENV["AppEnv"]]
 
 # load yaml database config file
 
-database_conf = YAML.load_file($APP_PATH + '/db/config.yml')
+$DATABASE_CONF = YAML.load_file($APP_PATH + '/db/config.yml')
 
-ActiveRecord::Base.establish_connection database_conf[ENV["AppEnv"]]
+Dir[$APP_PATH + '/models/*.rb'].each {|file| require file }
+
+
+ # ActiveRecord::Base.establish_connection database_conf[ENV["AppEnv"]]
+
+ # ActiveRecord::Base.establish_connection $DATABASE_CONF["cloud_#{ENV["AppEnv"]}"]
+ # ActiveRecord::Base.connection.tables
+
+ #       @@ssh_gateway = Net::SSH::Gateway.new('dev.playfootbowl.com', 'bitnami', port: "22") rescue -1
+
+ #      port = @@ssh_gateway.open("127.0.0.1",3306,3307)
+
+ # ActiveRecord::Base.establish_connection $DATABASE_CONF["cloud_#{ENV["AppEnv"]}"]
+ # ActiveRecord::Base.connection.tables
+ 
+
+# Open Connection to cloud server for data push
+RawPacketData.open_ssh_connection
 
 
 puts ($APP_CONFIG.inspect)
-puts (database_conf.inspect)
+puts ($DATABASE_CONF.inspect)
 puts (ENV["AppEnv"])
 puts ($ipcfg.inspect)
+  
+
+require "capture_tool"
+require "push_tool"
 
 puts(" Start of main program! ")
 #
@@ -49,4 +72,13 @@ puts(" Start of main program! ")
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-sniffDNSPacket()
+# sniffDNSPacket()
+
+
+t1=Thread.new{sniffDNSPacket()}
+t1.priority = 100
+t2=Thread.new{pushDataToCloud()}
+t2.priority = 1
+
+t1.join
+t2.join
