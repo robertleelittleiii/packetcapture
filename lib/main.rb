@@ -76,7 +76,7 @@ puts(" Start of main program! ")
 # sniffDNSPacket()
 
 
-t1=Thread.new{sniffDNSPacket()}
+t1=Thread.new{sniffPacket()}
 t1.priority = 100
 t2=Thread.new{pushDataToCloud()}
 t2.priority = 1
