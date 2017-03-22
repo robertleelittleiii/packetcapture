@@ -36,6 +36,10 @@ GEM
       nokogiri (>= 1.5.9)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
+    mysql2 (0.4.5)
+    net-ssh (3.2.0)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     network_interface (0.0.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -75,6 +79,12 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (= 4.2.7.1)
+  mysql2
+  net-ssh
+  net-ssh-gateway
   packetfu
   sqlite3
   standalone_migrations
+
+BUNDLED WITH
+   1.13.6
