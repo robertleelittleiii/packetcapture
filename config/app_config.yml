@@ -2,9 +2,12 @@
 
 defaults: &defaults
     system_ip: localhost
-    interface: en0
-    ip_filter: udp and port 53
-
+#    interface: wlan0
+    interface: eth0
+    ip_filter: udp and port 6741
+#    ip_filter: udp and port 30471
+#    location: raspi-1
+    location: jerseylanes
 development:
   <<: *defaults
 

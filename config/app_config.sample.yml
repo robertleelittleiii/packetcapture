@@ -2,10 +2,16 @@
 
 defaults: &defaults
     system_ip: localhost
+<<<<<<< local
+    interface: wlan0
+    ip_filter: udp and port 30471
+    location: raspi-1
+=======
     interface: en0
     ip_filter: udp and port 53
     location: mactest-1
 
+>>>>>>> other
 development:
   <<: *defaults
 

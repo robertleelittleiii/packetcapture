@@ -30,7 +30,7 @@ ENV["AppEnv"] = ENV["AppEnv"].blank? ? "development" : ENV["AppEnv"]
 $APP_CONFIG = YAML.load_file($APP_PATH + '/config/app_config.yml')[ENV["AppEnv"]]
 
 
-$ipcfg = PacketFu::Utils.whoami?(:iface=>$APP_CONFIG["interface"])
+$ipcfg = PacketFu::Utils.whoami?(:iface=>$APP_CONFIG["interface"]) rescue "n/a"
 $yourPIAddresquits="192.168.1.4"
 
 
