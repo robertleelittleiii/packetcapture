@@ -9,6 +9,7 @@ def pushDataToCloud()
         ni.captured_data = item.captured_data
         ni.raw_data = item.raw_data
         ni.location = $APP_CONFIG["location"] || "not known: " + $ipcfg.to_s
+        ni.time_stamp = item.created_at
         ni.processed = false
       end
       begin
