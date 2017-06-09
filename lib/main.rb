@@ -38,7 +38,7 @@ $yourPIAddresquits="192.168.1.4"
 
 $DATABASE_CONF = YAML.load_file($APP_PATH + '/db/config.yml')
 
-Dir[$APP_PATH + '/models/*.rb'].each {|file| require file }
+Dir[$APP_PATH + '/models/*.rb'].each {|file| load file } # changed from require to load to force changes to load
 
 
  # ActiveRecord::Base.establish_connection database_conf[ENV["AppEnv"]]

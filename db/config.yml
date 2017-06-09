@@ -22,7 +22,8 @@ remote_default: &remote_default
   password: vfT43I3T
   host: 127.0.0.1
   port: 3307
-
+  reconnect: true
+  
 cloud_development:
   <<: *remote_default
   #username: root
