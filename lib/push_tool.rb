@@ -3,7 +3,11 @@ def pushDataToCloud()
   while (true)
     items_to_push = CaptureCache.where(:processed => false)
 
-    items_to_push.each do |item|
+    if items_to_push.size == 0 then
+      last_item_pushed = 0
+    else
+      items_to_push.each do |item|
+      last_item_pushed = item.id
       new_item = RawPacketData.new do |ni|
         ni.packet_type = item.packet_type
         ni.captured_data = item.captured_data
@@ -32,7 +36,10 @@ def pushDataToCloud()
       puts("*" * 80)
 
     end
+    end
   
+    last_record_pushed = last_item_pushed
+    
     sleep(1)
   end
 end
