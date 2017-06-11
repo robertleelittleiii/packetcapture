@@ -41,17 +41,17 @@ $DATABASE_CONF = YAML.load_file($APP_PATH + '/db/config.yml')
 Dir[$APP_PATH + '/models/*.rb'].each {|file| load file } # changed from require to load to force changes to load
 
 
- # ActiveRecord::Base.establish_connection database_conf[ENV["AppEnv"]]
+# ActiveRecord::Base.establish_connection database_conf[ENV["AppEnv"]]
 
- # ActiveRecord::Base.establish_connection $DATABASE_CONF["cloud_#{ENV["AppEnv"]}"]
- # ActiveRecord::Base.connection.tables
+# ActiveRecord::Base.establish_connection $DATABASE_CONF["cloud_#{ENV["AppEnv"]}"]
+# ActiveRecord::Base.connection.tables
 
- #       @@ssh_gateway = Net::SSH::Gateway.new('dev.playfootbowl.com', 'bitnami', port: "22") rescue -1
+#       @@ssh_gateway = Net::SSH::Gateway.new('dev.playfootbowl.com', 'bitnami', port: "22") rescue -1
 
- #      port = @@ssh_gateway.open("127.0.0.1",3306,3307)
+#      port = @@ssh_gateway.open("127.0.0.1",3306,3307)
 
- # ActiveRecord::Base.establish_connection $DATABASE_CONF["cloud_#{ENV["AppEnv"]}"]
- # ActiveRecord::Base.connection.tables
+# ActiveRecord::Base.establish_connection $DATABASE_CONF["cloud_#{ENV["AppEnv"]}"]
+# ActiveRecord::Base.connection.tables
  
 
 # Open Connection to cloud server for data push
@@ -75,6 +75,8 @@ puts(" Start of main program! ")
 
 # sniffDNSPacket()
 
+last_record_pushed = 0
+hold_last_item_pushed = 0
 
 t1=Thread.new{sniffPacket()}
 t1.priority = 100
@@ -83,3 +85,24 @@ t2.priority = 1
 
 t1.join
 t2.join
+
+while true
+  hold_last_item_pushed = last_record_pushed
+  
+  sleep 30
+  
+  if hold_last_item_pushed == last_record_pushed and last_record_pushed != 0 then
+    puts("!-ERROR-! "*8)
+    puts("pushDataToCloud is hung")
+    puts("Status is: #{t2.status}")
+    puts("Restarting!!")
+    puts("!-ERROR-! "*8)
+
+    t2.exit
+    t2=Thread.new{pushDataToCloud()}
+    t2.priority = 1
+    t2.join
+  end
+  
+  
+end
