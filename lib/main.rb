@@ -55,7 +55,7 @@ Dir[$APP_PATH + '/models/*.rb'].each {|file| load file } # changed from require 
  
 
 # Open Connection to cloud server for data push
-RawPacketData.open_ssh_connection
+# RawPacketData.open_ssh_connection
 
 
 puts ($APP_CONFIG.inspect)
@@ -66,6 +66,7 @@ puts ($ipcfg.inspect)
 
 require "capture_tool"
 require "push_tool"
+require "reset_tool"
 
 puts(" Start of main program! ")
 #
@@ -75,34 +76,79 @@ puts(" Start of main program! ")
 
 # sniffDNSPacket()
 
-last_record_pushed = 0
-hold_last_item_pushed = 0
+@last_record_pushed = 5
+@hold_last_item_pushed = 0
+@is_push_running=false
 
-t1=Thread.new{sniffPacket()}
-t1.priority = 100
-t2=Thread.new{pushDataToCloud()}
-t2.priority = 1
+#@t3=Thread.new(reset_loop())
+#@t3.priority = 2
+## @t3.join
+#
+#puts("* - " * 40)
+#puts("* - "* 10 + "  Starting reset loop : #{@t3.status}" + "* - "* 10)
+#puts("* - " * 40)
+#puts
+#
+#sleep 10
 
-t1.join
-t2.join
+#@t2=Thread.new{pushDataToCloud()}
+#@t2.priority = 1
+## @t2.join
+#
+#puts("* - " * 40)
+#puts("* - "* 10 + "  Starting push to cloud thread : #{@t2.status}" + "* - "* 10)
+#puts("* - " * 40)
+#puts
+# sleep 10
+
+@t1=Thread.new{sniffPacket()}
+@t1.priority = 100
+# @t1.join
+
+puts("* - " * 40)
+puts("* - "* 10 + "  Starting sniff packet : #{@t1.status}" + "* - "* 10)
+puts("* - " * 40)
+puts
+
+# sleep 10
+
+
+#
+#@t3.join
+#@t2.join
+#@t1.join
+
+
 
 while true
-  hold_last_item_pushed = last_record_pushed
-  
-  sleep 30
-  
-  if hold_last_item_pushed == last_record_pushed and last_record_pushed != 0 then
-    puts("!-ERROR-! "*8)
-    puts("pushDataToCloud is hung")
-    puts("Status is: #{t2.status}")
-    puts("Restarting!!")
-    puts("!-ERROR-! "*8)
+    
+      if @hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0 then
+        puts("* " * 80)
+        puts("!-ERROR-! "*16)
+        puts("pushDataToCloud is hung")
+        puts("Status is: #{@t2.status rescue "Not running!"}")
+        puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+        puts("Restarting!!")
+        puts("!-ERROR-! "*16)
+        puts("* " * 80)
 
-    t2.exit
-    t2=Thread.new{pushDataToCloud()}
-    t2.priority = 1
-    t2.join
-  end
-  
-  
-end
+        if !@t2.blank? then
+          @t2.exit
+        end
+      
+        puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
+        @is_push_running = false
+        
+        @t2=Thread.new{pushDataToCloud()}
+        @t2.priority = 1
+        puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
+      
+        @last_record_pushed = 0
+      end
+      puts("* " * 80)
+      puts(" Gateway is working, sleeping 10 seconds...")
+      puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+      puts("* " * 80)
+      @hold_last_item_pushed = @last_record_pushed
+      sleep 10
+    end
