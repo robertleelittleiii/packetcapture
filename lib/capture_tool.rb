@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 
 def sniffDNSPacket()
+  
+  puts("* * "* 40)
+  puts("Starting sniffDNSPacket....");
+  sleep(60)
+  puts(".... waited 60 seconds.");
+    puts("* * "* 40)
+
+  
   pkt_array = PacketFu::Capture.new(:iface => $APP_CONFIG["interface"], :start=> true, :filter=>$APP_CONFIG["ip_filter"], :save=>true)
 	caught = false
 	while caught == false do

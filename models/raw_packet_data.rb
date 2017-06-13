@@ -70,7 +70,7 @@ class RawPacketData < ActiveRecord::Base
     end
 
   end
-  
+
   def self.reestablish_ssh_connection
     puts("Starting to re-open SSH Tunnel.")
     ssh_gateway = @@ssh_gateway
