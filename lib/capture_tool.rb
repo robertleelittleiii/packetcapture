@@ -2,11 +2,11 @@
 
 def sniffDNSPacket()
   
-  puts("* * "* 40)
+  puts("* * "* 10)
   puts("Starting sniffDNSPacket....");
   sleep(60)
   puts(".... waited 60 seconds.");
-    puts("* * "* 40)
+  puts("* * "* 10)
 
   
   pkt_array = PacketFu::Capture.new(:iface => $APP_CONFIG["interface"], :start=> true, :filter=>$APP_CONFIG["ip_filter"], :save=>true)
@@ -75,9 +75,10 @@ def sniffPacket()
 	while caught == false do
 		pkt_array.stream.each do |p|
 			pkt = PacketFu::Packet.parse(p)
-			puts("-" * 80)
-			puts(pkt.dissect)
-			puts(pkt.payload)
+			puts(".. packet captured ..")
+      #puts("-" * 80)
+			#puts(pkt.dissect)
+			#puts(pkt.payload)
 #			pkt.payload.split("").each do |item|
 #        puts("*"* 80)
 #        puts("inspect:" + item.inspect)
