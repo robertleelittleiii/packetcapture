@@ -1,8 +1,8 @@
 def pushDataToCloud()
 
-  puts("* * "* 40)
+  puts("* * "* 10)
   puts("Starting pushDataToCloud...");
-  puts("* * "* 40)
+  puts("* * "* 10)
 
   if !@is_push_running then
     while (true)
@@ -40,20 +40,20 @@ def pushDataToCloud()
             end
         
           rescue
-            puts("! " * 40)
+            puts("! " * 10)
             puts("SSH and Database Connection failed.  Trying to Reastablish")
-            puts("! " * 40)
+            puts("! " * 10)
             begin 
               RawPacketData.reestablish_ssh_connection
             rescue
             
             end
-            puts("! " * 40)
+            # puts("! " * 10)
             break_and_restart_process = true
           end
-          puts("*" * 80)
+         #  puts("*" * 80)
           puts("record: #{item.id} processed (#{item.captured_data})")
-          puts("*" * 80)
+         #  puts("*" * 80)
           if break_and_restart_process then
             break
           end

@@ -123,32 +123,32 @@ puts
 while true
     
       if @hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0 then
-        puts("* " * 80)
-        puts("!-ERROR-! "*16)
+      #  puts("* " * 10)
+        puts("!-ERROR-! "*4)
         puts("pushDataToCloud is hung")
         puts("Status is: #{@t2.status rescue "Not running!"}")
-        puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+        # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
         puts("Restarting!!")
-        puts("!-ERROR-! "*16)
-        puts("* " * 80)
+        puts("!-ERROR-! "*4)
+       # puts("* " * 10)
 
         if !@t2.blank? then
           @t2.exit
         end
       
-        puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
+        # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
         @is_push_running = false
         
         @t2=Thread.new{pushDataToCloud()}
         @t2.priority = 1
-        puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
+        # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
       
         @last_record_pushed = 0
       end
-      puts("* " * 80)
+      puts("* " * 10)
       puts(" Gateway is working, sleeping 10 seconds...")
-      puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
-      puts("* " * 80)
+      #puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+      #puts("* " * 10)
       @hold_last_item_pushed = @last_record_pushed
       sleep 10
     end
