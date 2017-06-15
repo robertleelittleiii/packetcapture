@@ -1,0 +1,7 @@
+
+Please use these files to update your system:
+
+1)  Crontab file -- shoud be installed
+
+2)  log_maintainance should be placed in the /home/pi/bin directory.
+
