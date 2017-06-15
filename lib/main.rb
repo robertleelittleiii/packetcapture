@@ -149,6 +149,8 @@ while true
       end
       puts("* " * 20)
       puts(" Gateway is working, sleeping 10 seconds...")
+      puts(" sniffPacket status: #{t1.status rescue "!! not running !!"}")
+      puts(" pushDataToCloud status: #{t2.status rescue "!! not running !!"}")
       puts("* " * 20)
       #puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
       #puts("* " * 10)
