@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DATE=`date +%Y-%m-%d@%H:%M:%S`
+FILE_TO_ARCHIVE="packet_processing.log"
+BACKUP_FILE="/home/pi/tmp/packet_processing_$DATE.tar.gz"
+BACKUP_FILE_NAME="packet_processing_$DATE.tar.gz"
+
+echo $BACKUP_FILE
+echo $FILE_TO_ARCHIVE
+
+cd /home/pi/cronlog
+
+tar -czf "$BACKUP_FILE" "$FILE_TO_ARCHIVE"
+
+sftp bitnami@dev.playfootbowl.com <<EOF
+cd raspi-logs
+lcd /home/pi/tmp
+mput $BACKUP_FILE_NAME
+quit
+EOF
+
+rm $BACKUP_FILE
+
+# clear the log file an give it a date header
+
+echo "- - - - - - - - - - - - - - - - - - - - - -" > $FILE_TO_ARCHIVE
+echo "- - - - - Log File Start $DATE - - - - - " >> $FILE_TO_ARCHIVE
+echo "- - - - - - - - - - - - - - - - - - - - - -" >> $FILE_TO_ARCHIVE
+ 
+ 
+
+ 
