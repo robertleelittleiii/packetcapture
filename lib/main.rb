@@ -116,7 +116,7 @@ puts
 #
 #@t3.join
 #@t2.join
-@t1.join
+# @t1.join
 
 
 
@@ -141,7 +141,7 @@ while true
         
         @t2=Thread.new{pushDataToCloud()}
         @t2.priority = 1
-        @t2.join
+        # @t2.join
 
         # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
       
