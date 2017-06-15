@@ -11,11 +11,12 @@ def pushDataToCloud()
       
       items_to_push = CaptureCache.where(:processed => false)
  
-  # uncomment for sampe data to push.
+  # uncomment for sample data to push.
   #    items_to_push = CaptureCache.where(:captured_data => "xml-sample")
     
       if items_to_push.size == 0 then
         last_item_pushed = 0
+        puts("")
       else
         break_and_restart_process=false
       

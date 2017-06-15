@@ -116,7 +116,7 @@ puts
 #
 #@t3.join
 #@t2.join
-#@t1.join
+@t1.join
 
 
 
@@ -141,12 +141,15 @@ while true
         
         @t2=Thread.new{pushDataToCloud()}
         @t2.priority = 1
+        @t2.join
+
         # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
       
         @last_record_pushed = 0
       end
-      puts("* " * 10)
+      puts("* " * 20)
       puts(" Gateway is working, sleeping 10 seconds...")
+      puts("* " * 20)
       #puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
       #puts("* " * 10)
       @hold_last_item_pushed = @last_record_pushed

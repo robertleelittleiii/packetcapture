@@ -60,7 +60,7 @@ class RawPacketData < ActiveRecord::Base
     if ssh_gateway.nil?  then
       puts("Opening SSH Gateway!!")
       @@ssh_gateway = Net::SSH::Gateway.new('dev.playfootbowl.com', 'bitnami', port: "22", timeout:1000 ) 
-      puts(@@ssh_gateway.inspect)
+      # puts(@@ssh_gateway.inspect)
       if ssh_gateway != -1  then
         port = @@ssh_gateway.open("127.0.0.1",3306,3307)
         puts "You have opened the SSH gateway!!!"
@@ -109,9 +109,9 @@ class RawPacketData < ActiveRecord::Base
         all.size
       end
     rescue
-      puts("! " * 40)
+      puts("! " * 10)
       puts("Database Connection failed.  Trying to Reastablish")
-      puts("! " * 40)
+      puts("! " * 10)
       reestablish_ssh_connection
 
     end
