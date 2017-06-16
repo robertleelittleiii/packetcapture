@@ -121,8 +121,8 @@ puts
 
 
 while true
-    
-  if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0) or !"sleep,run".include?(@t2.status)then
+  pushDataStatus = @t2.status rescue ""
+  if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0) or !"sleep,run".include?(pushDataStatus)then
     #  puts("* " * 10)
     puts("!-ERROR-! "*4)
     puts("pushDataToCloud is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
