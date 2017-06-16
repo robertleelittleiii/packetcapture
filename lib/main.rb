@@ -122,38 +122,54 @@ puts
 
 while true
     
-      if @hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0 then
-      #  puts("* " * 10)
-        puts("!-ERROR-! "*4)
-        puts("pushDataToCloud is hung")
-        puts("Status is: #{@t2.status rescue "Not running!"}")
-        # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
-        puts("Restarting!!")
-        puts("!-ERROR-! "*4)
-       # puts("* " * 10)
+  if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0) or !"sleep,run".include?(@t2.status)then
+    #  puts("* " * 10)
+    puts("!-ERROR-! "*4)
+    puts("pushDataToCloud is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
+    puts("Status is: #{@t2.status rescue "Not running!"}")
+    # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+    puts("Restarting!!")
+    puts("!-ERROR-! "*4)
+    # puts("* " * 10)
 
-        if !@t2.blank? then
-          @t2.exit
-        end
-      
-        # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
-        @is_push_running = false
-        
-        @t2=Thread.new{pushDataToCloud()}
-        @t2.priority = 1
-        # @t2.join
-
-        # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
-      
-        @last_record_pushed = 0
-      end
-      puts("* " * 20)
-      puts(" Gateway is working, sleeping 10 seconds...")
-      puts(" sniffPacket status: #{@t1.status rescue "!! not running !!"}")
-      puts(" pushDataToCloud status: #{@t2.status rescue "!! not running !!"}")
-      puts("* " * 20)
-      #puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
-      #puts("* " * 10)
-      @hold_last_item_pushed = @last_record_pushed
-      sleep 10
+    if !@t2.blank? then
+      @t2.exit
     end
+      
+    # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
+    @is_push_running = false
+        
+    @t2=Thread.new{pushDataToCloud()}
+    @t2.priority = 1
+    # @t2.join
+
+    # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
+      
+    @last_record_pushed = 0
+  end
+  puts("* " * 20)
+  puts("Time: #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
+  puts(" sniffPacket status: #{@t1.status rescue "!! not running !!"}")
+  
+  if !"sleep,run".include?(@t1.status) then
+    puts("!-ERROR-! "*4)
+    puts("sniffPacket is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
+    puts("Status is: #{@t1.status rescue "Not running!"}")
+    # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+    puts("Restarting!!")
+    puts("!-ERROR-! "*4)
+    if !@t1.blank? then
+      @t1.exit
+    end
+    @t1=Thread.new{sniffPacket()}
+    @t1.priority = 100
+        
+  end
+  puts(" pushDataToCloud status: #{@t2.status rescue "!! not running !!"}")
+  puts("* " * 20)
+  #puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+  #puts("* " * 10)
+  @hold_last_item_pushed = @last_record_pushed
+  sleep 10
+end
+ 

@@ -70,11 +70,11 @@ puts ("* " * 20)
 items_to_delete = CaptureCache.where(:processed => true)
 start_time = DateTime.now
 
-puts ("Will now remove #{items_to_delete.count} processed packets from local database.  Started: @#{Time.now}")
+  puts ("Will now remove #{items_to_delete.count} processed packets from local database.  Started: @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
 
 items_to_delete.each do |item|
   item.destroy
 end
-puts("Recurring Delete of Processed packets is complete. Ended @#{Time.now}. Took #{DateTime.now.to_i - start_time.to_i} seconds.")
+puts("Recurring Delete of Processed packets is complete. Ended @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}. Took #{DateTime.now.to_i - start_time.to_i} seconds.")
         
 puts ("* " * 20)
