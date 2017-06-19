@@ -121,7 +121,7 @@ puts
 
 
 while true
-  pushDataStatus = @t2.status rescue ""
+  pushDataStatus = @t2.status.to_s rescue ""
   if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0) or !"sleep,run".include?(pushDataStatus)then
     #  puts("* " * 10)
     puts("!-ERROR-! "*4)
