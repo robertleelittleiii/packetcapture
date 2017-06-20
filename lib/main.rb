@@ -118,11 +118,12 @@ puts
 #@t2.join
 # @t1.join
 
-
+last_check = Time.now
 
 while true
   pushDataStatus = @t2.status.to_s rescue ""
-  if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0) or !"sleep,run".include?(pushDataStatus)then
+  if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0 and last_check > (Time.now - 60.seconds)) or ! "sleep,run".include?(pushDataStatus) then
+    last_check = Time.now
     #  puts("* " * 10)
     puts("!-ERROR-! "*4)
     puts("pushDataToCloud is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
@@ -151,7 +152,8 @@ while true
   puts("Time: #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
   puts(" sniffPacket status: #{@t1.status rescue "!! not running !!"}")
   
-  if !"sleep,run".include?(@t1.status) then
+  sniffPacketStatus = @t1.status.to_s rescue ""
+  if !"sleep,run".include?(sniffPacketStatus) then
     puts("!-ERROR-! "*4)
     puts("sniffPacket is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
     puts("Status is: #{@t1.status rescue "Not running!"}")
