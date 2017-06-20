@@ -79,6 +79,7 @@ puts(" Start of main program! ")
 @last_record_pushed = 5
 @hold_last_item_pushed = 0
 @is_push_running=false
+@push_last_seen=Time.now
 
 #@t3=Thread.new(reset_loop())
 #@t3.priority = 2
@@ -122,7 +123,7 @@ last_check = Time.now
 
 while true
   pushDataStatus = @t2.status.to_s rescue ""
-  if (@hold_last_item_pushed == @last_record_pushed and @last_record_pushed != 0 and last_check > (Time.now - 60.seconds)) or ! "sleep,run".include?(pushDataStatus) then
+  if (@push_last_seen + 30 < Time.now) or ! "sleep,run".include?(pushDataStatus) then
     last_check = Time.now
     #  puts("* " * 10)
     puts("!-ERROR-! "*4)
