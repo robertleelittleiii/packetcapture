@@ -129,6 +129,8 @@ while true
     puts("pushDataToCloud is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
     puts("Status is: #{@t2.status rescue "Not running!"}")
     # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+    puts("Closing ssh tunnel")
+    RawPacketData.close_ssh_connection()
     puts("Restarting!!")
     puts("!-ERROR-! "*4)
     # puts("* " * 10)

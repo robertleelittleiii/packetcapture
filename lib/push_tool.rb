@@ -40,6 +40,7 @@ def pushDataToCloud()
                 new_item.save
                 item.processed = true
                 item.save
+                last_item_pushed = 0
               end
         
             rescue
@@ -61,7 +62,6 @@ def pushDataToCloud()
               break
             end
             @last_record_pushed = last_item_pushed
-
           end
         end
   

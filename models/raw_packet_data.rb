@@ -71,6 +71,33 @@ class RawPacketData < ActiveRecord::Base
 
   end
 
+  def self.close_ssh_connection
+    puts("Closing SSH Tunnel.")
+    ssh_gateway = @@ssh_gateway
+
+    if !ssh_gateway.nil? then
+      if RawPacketData.ssh_gateway.active? then
+        puts("1) Close port 3307.")
+        ssh_gateway.close(3307)
+        puts("2) Shutdown ssh tunnel.")
+
+    
+        begin
+          ssh_gateway.shutdown! 
+        rescue
+        end
+      
+        puts("(3)Clear gateway variable.")
+      else 
+        puts("Gateway already closed... doing nothing!")
+      end
+      
+      @@ssh_gateway = nil
+
+      
+    end
+  end
+  
   def self.reestablish_ssh_connection
     puts("Starting to re-open SSH Tunnel.")
     ssh_gateway = @@ssh_gateway
