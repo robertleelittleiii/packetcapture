@@ -74,6 +74,8 @@ def pushDataToCloud()
     
         sleep(1)
         puts("running...")
+        @push_last_seen=Time.now
+
       end
     rescue => e
       puts("!-ERROR-! "*4)
