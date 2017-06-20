@@ -37,10 +37,16 @@ def pushDataToCloud()
                   ni.processed = false
                 end
             
-                new_item.save
+                new_items_saved = new_item.save
+                
                 item.processed = true
-                item.save
-                last_item_pushed = 0
+                packet_item_saved = item.save
+                
+                if new_items_saved then
+                  last_item_pushed = 0
+                else
+                  break_and_restart_process = true
+                end
               end
         
             rescue
@@ -70,11 +76,11 @@ def pushDataToCloud()
         puts("running...")
       end
     rescue => e
-    puts("!-ERROR-! "*4)
+      puts("!-ERROR-! "*4)
       puts ("pushDataToCloud Failed with following Error: #{e.message} @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}" )
       puts e.inspect
       puts e.backtrace
-    puts("!-ERROR-! "*4)
+      puts("!-ERROR-! "*4)
 
     end
   end
