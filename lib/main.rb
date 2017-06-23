@@ -156,7 +156,7 @@ while true
   puts(" sniffPacket status: #{@t1.status rescue "!! not running !!"}")
   
   sniffPacketStatus = @t1.status.to_s rescue ""
-  if !"sleep,run".include?(sniffPacketStatus) then
+  if !"sleep,run".include?(sniffPacketStatus) or sniffPacketStatus.blank? then
     puts("!-ERROR-! "*4)
     puts("sniffPacket is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
     puts("Status is: #{@t1.status rescue "Not running!"}")
@@ -168,8 +168,8 @@ while true
     end
     @t1=Thread.new{sniffPacket()}
     @t1.priority = 100
-        
   end
+  
   puts(" pushDataToCloud status: #{@t2.status rescue "!! not running !!"}")
   puts("* " * 20)
   #puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
