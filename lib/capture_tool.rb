@@ -73,6 +73,7 @@ def sniffPacket()
   pkt_array = PacketFu::Capture.new(:iface => $APP_CONFIG["interface"], :start=> true, :filter=>$APP_CONFIG["ip_filter"], :save=>true)
 	caught = false
 	while caught == false do
+    begin
 		pkt_array.stream.each do |p|
 			pkt = PacketFu::Packet.parse(p)
 			puts(".. packet captured ..")
@@ -128,6 +129,14 @@ def sniffPacket()
 		
     
 		end
+        rescue => e
+      puts("!-ERROR-! "*4)
+      puts ("sniffPacket Failed with following Error: #{e.message} @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}" )
+      puts e.inspect
+      puts e.backtrace
+      puts("!-ERROR-! "*4)
+
+    end
 	end
 end
 
