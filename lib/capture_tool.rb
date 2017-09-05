@@ -122,10 +122,12 @@ def sniffPacket()
         #				end
         #        puts($domainName)
         packet_info = CaptureCache.new
-        packet_info.packet_type = $APP_CONFIG["ip_filter"]
-        packet_info.captured_data = "xml-sample"
-        packet_info.raw_data = pkt.payload
-        packet_info.save
+        packet_info.transaction do
+          packet_info.packet_type = $APP_CONFIG["ip_filter"]
+          packet_info.captured_data = "xml-sample"
+          packet_info.raw_data = pkt.payload
+          packet_info.save
+        end
         # else
         #  puts("DNS port accessed, but a query not a response (ignored)")
         #end
@@ -144,11 +146,13 @@ def sniffPacket()
         pkt = PacketFu::Packet.parse(hold_packet)
 
         packet_info = CaptureCache.new
-        packet_info.packet_type = $APP_CONFIG["ip_filter"]
-        packet_info.captured_data = "xml-sample"
-        packet_info.raw_data = pkt.payload
-        packet_info.save
-      
+        packet_info.transaction do
+          packet_info.packet_type = $APP_CONFIG["ip_filter"]
+          packet_info.captured_data = "xml-sample"
+          packet_info.raw_data = pkt.payload
+          packet_info.save
+        end
+        
         puts(".. packet captured -- recovery ..")
 
         puts ("!-" * 10)
