@@ -19,6 +19,23 @@ $LOAD_PATH << $APP_PATH << $APP_PATH + "/lib"
 # for ssh tunnel connections
 require 'net/ssh/gateway'
 
+# fix for sqlite
+
+module SqliteTransactionFix
+  def begin_db_transaction
+    log('begin immediate transaction', nil) { @connection.transaction(:immediate) }
+ 	puts("***** TESTING *****")
+ end
+end
+
+module ActiveRecord
+  module ConnectionAdapters
+    class SQLiteAdapter < AbstractAdapter
+      prepend SqliteTransactionFix
+    end
+  end
+end
+
 # Includes for apps
 
 require 'yaml'
