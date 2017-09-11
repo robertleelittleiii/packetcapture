@@ -122,12 +122,12 @@ def sniffPacket()
         #				end
         #        puts($domainName)
         packet_info = CaptureCache.new
-        packet_info.transaction do
+#        packet_info.transaction do
           packet_info.packet_type = $APP_CONFIG["ip_filter"]
           packet_info.captured_data = "xml-sample"
           packet_info.raw_data = pkt.payload
           packet_info.save
-        end
+#        end
         # else
         #  puts("DNS port accessed, but a query not a response (ignored)")
         #end
@@ -140,18 +140,19 @@ def sniffPacket()
       puts e.inspect
       puts e.backtrace
       begin
+        # ActiveRecord::Base.connection.execute("BEGIN TRANSACTION; END;")
         puts ("!-" * 10)
         puts ("Attempting to save last packet!")
       
         pkt = PacketFu::Packet.parse(hold_packet)
 
         packet_info = CaptureCache.new
-        packet_info.transaction do
+ #       packet_info.transaction do
           packet_info.packet_type = $APP_CONFIG["ip_filter"]
           packet_info.captured_data = "xml-sample"
           packet_info.raw_data = pkt.payload
           packet_info.save
-        end
+ #       end
         
         puts(".. packet captured -- recovery ..")
 
