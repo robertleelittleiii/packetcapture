@@ -45,6 +45,7 @@ def pushDataToCloud()
 #                end
                 if new_items_saved then
                   last_item_pushed = 0
+                  item.delete
                 else
                   break_and_restart_process = true
                 end
