@@ -38,11 +38,11 @@ def pushDataToCloud()
                 end
             
                 new_items_saved = new_item.save
-                item.transaction do
+#                item.transaction do
 
                   item.processed = true
                   packet_item_saved = item.save
-                end
+#                end
                 if new_items_saved then
                   last_item_pushed = 0
                 else
