@@ -1,13 +1,14 @@
 #  app config file will contain any variable settings.
 
 defaults: &defaults
+    server: prod.playfootbowl.com
     system_ip: localhost
 #    interface: wlan0
     interface: eth0
     ip_filter: udp and port 6741
 #    ip_filter: udp and port 30471
 #    location: raspi-1
-    location: jerseylanes2
+    location: SunsetLanes
 development:
   <<: *defaults
 
