@@ -59,7 +59,7 @@ class RawPacketData < ActiveRecord::Base
 
     if ssh_gateway.nil?  then
       puts("Opening SSH Gateway!!")
-      @@ssh_gateway = Net::SSH::Gateway.new('dev.playfootbowl.com', 'bitnami', port: "22", timeout:1000 ) 
+      @@ssh_gateway = Net::SSH::Gateway.new($APP_CONFIG["server"], 'bitnami', port: "22", timeout:1000 ) 
       # puts(@@ssh_gateway.inspect)
       if ssh_gateway != -1  then
         port = @@ssh_gateway.open("127.0.0.1",3306,3307)
