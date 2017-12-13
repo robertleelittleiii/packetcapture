@@ -25,7 +25,7 @@ def pushDataToCloudviaHTTP()
           params["raw_packet_datum"]= 
             {"packet_type"=>item.packet_type, 
             "captured_data"=>item.captured_data, 
-            "raw_packet_data"=> item.raw_data, 
+            "raw_data"=> item.raw_data, 
             "location"=>$APP_CONFIG["location"] || "not known: " + $ipcfg.to_s, 
             "time_stamp"=>item.created_at,
             "processed"=>false
