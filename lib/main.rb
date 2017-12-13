@@ -152,7 +152,7 @@ while true
     puts("!-ERROR-! "*4)
     puts("pushDataToCloud is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
     puts("Status is: #{@t2.status rescue "Not running!"}")
-    if !$APP_CONFIG["server"].use_http then
+    if !$APP_CONFIG["use_http"] then
       # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
       puts("Closing ssh tunnel")
       RawPacketData.close_ssh_connection()
