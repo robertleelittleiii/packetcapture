@@ -19,13 +19,17 @@ $LOAD_PATH << $APP_PATH << $APP_PATH + "/lib"
 # for ssh tunnel connections
 require 'net/ssh/gateway'
 
+# for new http push process
+require "uri"
+require "net/http"
+
 # fix for sqlite
 
 module SqliteTransactionFix
   def begin_db_transaction
     log('begin immediate transaction', nil) { @connection.transaction(:immediate) }
- 	puts("***** TESTING *****")
- end
+    puts("***** TESTING *****")
+  end
 end
 
 module ActiveRecord
@@ -74,6 +78,8 @@ Dir[$APP_PATH + '/models/*.rb'].each {|file| load file } # changed from require 
 # Open Connection to cloud server for data push
 # RawPacketData.open_ssh_connection
 
+# CaptureCache.delete_all
+# CaptureCache.all.count
 
 puts ($APP_CONFIG.inspect)
 puts ($DATABASE_CONF.inspect)
@@ -146,10 +152,12 @@ while true
     puts("!-ERROR-! "*4)
     puts("pushDataToCloud is hung @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
     puts("Status is: #{@t2.status rescue "Not running!"}")
-    # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
-    puts("Closing ssh tunnel")
-    RawPacketData.close_ssh_connection()
-    puts("Restarting!!")
+    if !$APP_CONFIG["server"].use_http then
+      # puts("values--->  hold_last_item_pushed: #{ @hold_last_item_pushed},  @last_record_pushed: #{@last_record_pushed}")
+      puts("Closing ssh tunnel")
+      RawPacketData.close_ssh_connection()
+      puts("Restarting!!")
+    end
     puts("!-ERROR-! "*4)
     # puts("* " * 10)
 
@@ -160,7 +168,7 @@ while true
     # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
     @is_push_running = false
         
-    @t2=Thread.new{pushDataToCloud()}
+    @t2= $APP_CONFIG["server"].use_http ? Thread.new{pushDataToCloudviaHTTP()} : Thread.new{pushDataToCloud()}
     @t2.priority = 1
     # @t2.join
 
@@ -168,6 +176,8 @@ while true
       
     @last_record_pushed = 0
   end
+  
+  
   puts("* " * 20)
   puts("Time: #{Time.now.strftime("%d/%m/%Y %H:%M:%S")}")
   puts(" sniffPacket status: #{@t1.status rescue "!! not running !!"}")
