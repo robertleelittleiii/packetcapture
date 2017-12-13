@@ -33,7 +33,15 @@ def pushDataToCloudviaHTTP()
           new_items_saved = true
             
           begin
-            result = Net::HTTP.post_form(URI.parse("http://" + $APP_CONFIG["server"] + '/raw_packet_data'), params)
+            
+            uri = URI("http://" + $APP_CONFIG["server"] + '/raw_packet_data')
+            req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+            req.body = params.to_json
+            result = Net::HTTP.start(uri.hostname, uri.port) do |http|
+              http.request(req)
+            end
+
+            #   result = Net::HTTP.post_form(URI.parse("http://" + $APP_CONFIG["server"] + '/raw_packet_data'), params)
           rescue => e
             puts("!-ERROR-! "*4)
             puts ("pushDataToCloud Via HTTP Failed with following Error: #{e.message} @#{Time.now.strftime("%d/%m/%Y %H:%M:%S")}" )
