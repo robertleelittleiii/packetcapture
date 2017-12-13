@@ -168,7 +168,7 @@ while true
     # puts("Status is NOW----> : #{@t2.status rescue "Not running!"}")
     @is_push_running = false
         
-    @t2= $APP_CONFIG["server"].use_http ? Thread.new{pushDataToCloudviaHTTP()} : Thread.new{pushDataToCloud()}
+    @t2= $APP_CONFIG["use_http"] ? Thread.new{pushDataToCloudviaHTTP()} : Thread.new{pushDataToCloud()}
     @t2.priority = 1
     # @t2.join
 
