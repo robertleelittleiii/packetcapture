@@ -47,7 +47,7 @@ GEM
       network_interface (~> 0.0)
       pcaprub (~> 0.12)
     pcaprub (0.12.4)
-    rack (1.6.5)
+    rack (1.6.13)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails-deprecated_sanitizer (1.0.3)
